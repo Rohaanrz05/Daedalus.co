@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daedalus Corporation | Management Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Orbitron:wght@700&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .heading { font-family: 'Space Grotesk', sans-serif; }
+    .orbitron { font-family: 'Orbitron', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+  <!-- Sign In Modal -->
+  <div id="loginOverlay" class="fixed inset-0 bg-slate-950/95 flex items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border border-amber-500/30 rounded-2xl p-8 max-w-md w-full shadow-2xl">
+      <div class="text-center mb-6">
+        <span class="orbitron text-4xl text-amber-400 font-black">Δ</span>
+        <h2 class="text-xl font-bold heading text-white mt-2">Daedalus Studio Portal</h2>
+        <p class="text-xs text-slate-400 mt-1">Authenticate to update corporate parameters</p>
+      </div>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase text-slate-400 mb-1">Username</label>
+          <input type="text" id="username" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm text-white focus:border-amber-400 outline-none" required />
+        </div>
+        <div>
+          <label class="block text-xs uppercase text-slate-400 mb-1">Password</label>
+          <input type="password" id="password" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm text-white focus:border-amber-400 outline-none" required />
+        </div>
+        <button type="submit" class="w-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all">Sign In</button>
+        <p id="loginError" class="text-xs text-red-400 text-center hidden">Invalid credentials</p>
+        <p class="text-[11px] text-slate-500 text-center">Default: <code>admin</code> / <code>daedalus2026</code></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-400/40 text-amber-400 flex items-center justify-center font-bold">Δ</div>
+        <h1 class="text-base font-bold heading text-white">Daedalus Control Studio</h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="/" target="_blank" class="text-xs text-amber-400 hover:underline font-semibold">View Live Corporate Site ↗</a>
+        <button onclick="logout()" class="text-xs bg-slate-800 hover:bg-red-500/20 text-slate-300 hover:text-red-400 px-3 py-1.5 rounded-lg border border-slate-700 transition-colors">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Studio Workspace -->
+  <main class="max-w-7xl mx-auto px-6 py-10 space-y-10">
+
+    <!-- 1. CORPORATE & FOUNDER PARAMETERS -->
+    <section class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 sm:p-8">
+      <div class="border-b border-slate-800 pb-3 mb-6">
+        <span class="text-xs font-bold text-amber-400 tracking-widest uppercase">Block 01</span>
+        <h2 class="text-lg font-bold text-white heading">Corporate Identity, Hero Text & Founder Bio</h2>
+      </div>
+
+      <form id="companyForm" class="space-y-4">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Company Display Name</label>
+            <input type="text" id="co_name" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required />
+          </div>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Tagline</label>
+            <input type="text" id="co_tagline" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase text-slate-400 mb-1">Hero Main Headline</label>
+          <input type="text" id="co_headline" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required />
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase text-slate-400 mb-1">Hero Sub-Text Description</label>
+          <textarea id="co_subtext" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required></textarea>
+        </div>
+
+        <!-- Founder Coordinates -->
+        <div class="pt-4 border-t border-slate-800/80 grid sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Founder Name</label>
+            <input type="text" id="co_founder_name" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required />
+          </div>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Founder Role</label>
+            <input type="text" id="co_founder_role" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required />
+          </div>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Founder Portfolio URL</label>
+            <input type="url" id="co_founder_url" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase text-slate-400 mb-1">Founder Extended Biography</label>
+          <textarea id="co_founder_bio" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required></textarea>
+        </div>
+
+        <!-- Contact Coordinates -->
+        <div class="pt-4 border-t border-slate-800/80 grid sm:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Instagram URL</label>
+            <input type="url" id="co_insta" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required />
+          </div>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Contact Email</label>
+            <input type="email" id="co_email" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required />
+          </div>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Phone</label>
+            <input type="text" id="co_phone" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required />
+          </div>
+          <div>
+            <label class="block text-xs uppercase text-slate-400 mb-1">Location</label>
+            <input type="text" id="co_location" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-white" required />
+          </div>
+        </div>
+
+        <button type="submit" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider">Save Parameters</button>
+      </form>
+    </section>
+
+    <!-- 2. ENGINEERING DIVISIONS & SERVICES -->
+    <section class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 sm:p-8">
+      <div class="border-b border-slate-800 pb-3 mb-6">
+        <span class="text-xs font-bold text-sky-400 tracking-widest uppercase">Block 02</span>
+        <h2 class="text-lg font-bold text-white heading">Services & Engineering Divisions</h2>
+      </div>
+
+      <div class="grid lg:grid-cols-[1fr_1.3fr] gap-8">
+        <form id="serviceForm" class="space-y-3 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+          <h3 class="text-xs font-bold text-slate-300 uppercase">Add New Division</h3>
+          <div class="grid grid-cols-[80px_1fr] gap-2">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Icon</label>
+              <input type="text" id="srv_icon" placeholder="🤖" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white" required />
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Division Title</label>
+              <input type="text" id="srv_title" placeholder="e.g. Heuristic Systems" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white" required />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] text-slate-400 mb-1">Description</label>
+            <textarea id="srv_desc" rows="3" placeholder="Detail the core offering..." class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white" required></textarea>
+          </div>
+          <div>
+            <label class="block text-[11px] text-slate-400 mb-1">Artifacts / Technologies (Comma-separated)</label>
+            <input type="text" id="srv_deliverables" placeholder="Python, Scikit-learn, C++" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white" />
+          </div>
+          <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-slate-950 font-bold px-4 py-2 rounded-lg text-xs">Add Division</button>
+        </form>
+
+        <div>
+          <h3 class="text-xs font-bold text-slate-300 uppercase mb-3">Current Divisions</h3>
+          <div id="servicesList" class="space-y-3 overflow-y-auto max-h-[450px]"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. R&D SHOWCASE PROJECTS -->
+    <section class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 sm:p-8">
+      <div class="border-b border-slate-800 pb-3 mb-6">
+        <span class="text-xs font-bold text-sky-400 tracking-widest uppercase">Block 03</span>
+        <h2 class="text-lg font-bold text-white heading">R&D Projects Showcase</h2>
+      </div>
+
+      <div class="grid lg:grid-cols-[1fr_1.3fr] gap-8">
+        <form id="projectForm" class="space-y-3 bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+          <h3 class="text-xs font-bold text-slate-300 uppercase">Publish Project</h3>
+          <div>
+            <label class="block text-[11px] text-slate-400 mb-1">Project Title</label>
+            <input type="text" id="proj_title" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white" required />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Category</label>
+              <input type="text" id="proj_category" placeholder="e.g. Applied ML" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white" required />
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Client / Domain</label>
+              <input type="text" id="proj_client" placeholder="e.g. Aerospace" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] text-slate-400 mb-1">Description</label>
+            <textarea id="proj_desc" rows="3" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white" required></textarea>
+          </div>
+          <div>
+            <label class="block text-[11px] text-slate-400 mb-1">Live Demo / Repository URL</label>
+            <input type="url" id="proj_url" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-xs text-white" />
+          </div>
+          <div>
+            <label class="block text-[11px] text-slate-400 mb-1">Cover Screenshot</label>
+            <input type="file" id="proj_img" accept="image/*" class="w-full text-xs text-slate-400 file:bg-slate-800 file:border-0 file:rounded file:px-3 file:py-1 file:text-xs file:text-white" />
+          </div>
+          <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-slate-950 font-bold px-4 py-2 rounded-lg text-xs">Publish Project</button>
+        </form>
+
+        <div>
+          <h3 class="text-xs font-bold text-slate-300 uppercase mb-3">Live Projects Gallery</h3>
+          <div id="projectsList" class="space-y-3 overflow-y-auto max-h-[450px]"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    let globalState = {};
+
+    async function checkAuth() {
+      const res = await fetch('/api/check-auth');
+      const data = await res.json();
+      if (data.authenticated) {
+        document.getElementById('loginOverlay').classList.add('hidden');
+        loadData();
+      } else {
+        document.getElementById('loginOverlay').classList.remove('hidden');
+      }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: document.getElementById('username').value,
+          password: document.getElementById('password').value
+        })
+      });
+      if (res.ok) {
+        document.getElementById('loginOverlay').classList.add('hidden');
+        loadData();
+      } else {
+        document.getElementById('loginError').classList.remove('hidden');
+      }
+    });
+
+    async function logout() {
+      await fetch('/api/logout', { method: 'POST' });
+      location.reload();
+    }
+
+    async function loadData() {
+      const res = await fetch('/api/business-data');
+      globalState = await res.json();
+
+      if (globalState.company) {
+        const c = globalState.company;
+        document.getElementById('co_name').value = c.company_name || '';
+        document.getElementById('co_tagline').value = c.tagline || '';
+        document.getElementById('co_headline').value = c.hero_headline || '';
+        document.getElementById('co_subtext').value = c.hero_subtext || '';
+        document.getElementById('co_founder_name').value = c.founder_name || '';
+        document.getElementById('co_founder_role').value = c.founder_role || '';
+        document.getElementById('co_founder_bio').value = c.founder_bio || '';
+        document.getElementById('co_founder_url').value = c.founder_portfolio_url || '';
+        document.getElementById('co_insta').value = c.instagram_url || '';
+        document.getElementById('co_email').value = c.contact_email || '';
+        document.getElementById('co_phone').value = c.contact_phone || '';
+        document.getElementById('co_location').value = c.contact_location || '';
+      }
+
+      renderServices();
+      renderProjects();
+    }
+
+    document.getElementById('companyForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await fetch('/api/company-info', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          company_name: document.getElementById('co_name').value,
+          tagline: document.getElementById('co_tagline').value,
+          hero_headline: document.getElementById('co_headline').value,
+          hero_subtext: document.getElementById('co_subtext').value,
+          founder_name: document.getElementById('co_founder_name').value,
+          founder_role: document.getElementById('co_founder_role').value,
+          founder_bio: document.getElementById('co_founder_bio').value,
+          founder_portfolio_url: document.getElementById('co_founder_url').value,
+          instagram_url: document.getElementById('co_insta').value,
+          contact_email: document.getElementById('co_email').value,
+          contact_phone: document.getElementById('co_phone').value,
+          contact_location: document.getElementById('co_location').value
+        })
+      });
+      alert('Parameters saved successfully!');
+      loadData();
+    });
+
+    function renderServices() {
+      const container = document.getElementById('servicesList');
+      container.innerHTML = (globalState.services || []).map(s => `
+        <div class="p-3 bg-slate-950/70 border border-slate-800 rounded-lg text-xs space-y-1">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-white">${s.icon} ${s.title}</span>
+            <button onclick="deleteService(${s.id})" class="text-red-400 hover:text-red-300 font-bold">Delete</button>
+          </div>
+          <p class="text-slate-400 text-[11px]">${s.description}</p>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('serviceForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await fetch('/api/services', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          icon: document.getElementById('srv_icon').value,
+          title: document.getElementById('srv_title').value,
+          description: document.getElementById('srv_desc').value,
+          deliverables: document.getElementById('srv_deliverables').value
+        })
+      });
+      e.target.reset();
+      loadData();
+    });
+
+    async function deleteService(id) {
+      if (confirm('Delete this division?')) {
+        await fetch(`/api/services/${id}`, { method: 'DELETE' });
+        loadData();
+      }
+    }
+
+    function renderProjects() {
+      const container = document.getElementById('projectsList');
+      container.innerHTML = (globalState.projects || []).map(p => `
+        <div class="p-3 bg-slate-950/70 border border-slate-800 rounded-lg text-xs flex justify-between items-center">
+          <div>
+            <h4 class="font-bold text-white">${p.title}</h4>
+            <span class="text-sky-400 text-[10px] uppercase font-bold">${p.category}</span>
+          </div>
+          <button onclick="deleteProject(${p.id})" class="text-red-400 hover:text-red-300 font-bold">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('projectForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('title', document.getElementById('proj_title').value);
+      formData.append('category', document.getElementById('proj_category').value);
+      formData.append('client_name', document.getElementById('proj_client').value);
+      formData.append('description', document.getElementById('proj_desc').value);
+      formData.append('live_url', document.getElementById('proj_url').value);
+      const img = document.getElementById('proj_img').files[0];
+      if (img) formData.append('image', img);
+
+      await fetch('/api/projects', { method: 'POST', body: formData });
+      e.target.reset();
+      loadData();
+    });
+
+    async function deleteProject(id) {
+      if (confirm('Delete this project?')) {
+        await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+        loadData();
+      }
+    }
+
+    window.onload = checkAuth;
+  </script>
+</body>
+</html>

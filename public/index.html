@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DAEDALUS CORPORATION | Autonomous Intelligence & Advanced Software Systems</title>
+  <meta name="description" content="Official Corporate Portal of Daedalus Corporation. Pioneering enterprise AI, predictive modeling, heuristic software systems, and algorithmic engineering led by M. Rohaan Zahid." />
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;900&family=Orbitron:wght@600;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Space Grotesk', 'sans-serif'],
+            orbitron: ['Orbitron', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          colors: {
+            daedalus: {
+              gold: '#f59e0b',
+              goldLight: '#fbbf24',
+              neon: '#00f0ff',
+              violet: '#6366f1',
+              dark: '#030712',
+              card: 'rgba(8, 14, 29, 0.78)'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: #030712; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    
+    #quantum-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(circle at 50% 10%, #0d1a3a 0%, #050b18 55%, #02050e 100%);
+      pointer-events: auto;
+    }
+    
+    .tab-content { display: none; opacity: 0; transform: translateY(16px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    .tab-content.active { display: block; opacity: 1; transform: translateY(0); }
+    
+    .corp-glass {
+      background: linear-gradient(135deg, rgba(13, 22, 45, 0.72) 0%, rgba(3, 7, 18, 0.88) 100%);
+      border: 1px solid rgba(0, 240, 255, 0.16);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+    
+    .corp-glass-gold {
+      background: linear-gradient(135deg, rgba(28, 20, 7, 0.75) 0%, rgba(3, 7, 18, 0.9) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 25px 60px rgba(245, 158, 11, 0.06);
+    }
+
+    .nav-btn {
+      position: relative;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      border-radius: 9999px;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .nav-btn:hover { color: #00f0ff; background: rgba(0, 240, 255, 0.08); }
+    .nav-btn.active {
+      color: #030712;
+      background: linear-gradient(135deg, #00f0ff 0%, #38bdf8 50%, #f59e0b 100%);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.45);
+    }
+
+    .btn-cyber {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 28px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #030712;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(251, 191, 36, 0.5);
+      cursor: pointer;
+    }
+    .btn-cyber:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(245, 158, 11, 0.45);
+      filter: brightness(1.1);
+    }
+
+    .btn-neon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 26px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      background: rgba(0, 240, 255, 0.06);
+      color: #00f0ff;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .btn-neon:hover {
+      background: rgba(0, 240, 255, 0.16);
+      border-color: #00f0ff;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.25);
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 4px;
+      margin-left: 4px;
+      background-color: #f59e0b;
+      animation: cursorBlink 0.85s infinite;
+    }
+    @keyframes cursorBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .glow-gold { text-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
+    .glow-cyan { text-shadow: 0 0 25px rgba(0, 240, 255, 0.6); }
+  </style>
+</head>
+<body class="selection:bg-amber-400 selection:text-slate-950">
+
+  <!-- Interactive Quantum Particle Canvas -->
+  <canvas id="quantum-canvas"></canvas>
+
+  <!-- ==================== CORPORATE NAV HEADER ==================== -->
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-2xl">
+    <div class="max-w-7xl mx-auto px-5 py-3.5 flex items-center justify-between">
+      
+      <!-- Brand Logo / Emblem -->
+      <div onclick="switchTab('overview')" class="flex items-center gap-3.5 cursor-pointer group">
+        <div class="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-500 via-sky-500 to-indigo-600 p-[1.5px] shadow-[0_0_25px_rgba(245,158,11,0.25)] group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-slate-950 rounded-2xl flex items-center justify-center font-orbitron font-black text-amber-400 text-2xl">
+            Δ
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-black font-orbitron tracking-tight text-white group-hover:text-amber-400 transition-colors">DAEDALUS</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/30 text-amber-400 uppercase font-bold tracking-widest">CORP</span>
+          </div>
+          <span class="block text-[9px] font-mono tracking-[0.25em] text-slate-400 uppercase">Applied Systems & AI Labs</span>
+        </div>
+      </div>
+
+      <!-- Desktop Navigation Tabs -->
+      <nav class="hidden lg:flex items-center gap-1.5 p-1 bg-slate-900/70 border border-slate-800/80 rounded-full">
+        <button class="nav-btn active" data-tab="overview" onclick="switchTab('overview')">HQ Overview</button>
+        <button class="nav-btn" data-tab="services" onclick="switchTab('services')">Engineering Divisions</button>
+        <button class="nav-btn" data-tab="projects" onclick="switchTab('projects')">R&D Projects</button>
+        <button class="nav-btn" data-tab="founder" onclick="switchTab('founder')">Office of the CEO</button>
+        <button class="nav-btn" data-tab="media" onclick="switchTab('media')">Media & Instagram</button>
+        <button class="nav-btn" data-tab="contact" onclick="switchTab('contact')">Inquiries</button>
+      </nav>
+
+      <!-- Action Cluster -->
+      <div class="flex items-center gap-3">
+        <a href="https://rohaanzahid.space" target="_blank" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold border border-sky-400/40 text-sky-400 hover:bg-sky-400/10 transition-all font-mono">
+          <span>👨‍💻</span> rohaanzahid.space ↗
+        </a>
+        <button onclick="switchTab('contact')" class="btn-cyber !py-2 !px-4 !text-xs">
+          Direct Dossier
+        </button>
+        <button onclick="toggleMobileNav()" class="lg:hidden p-2 rounded-xl border border-slate-800 text-sky-400">
+          ☰
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Nav Drawer -->
+    <div id="mobileDrawer" class="hidden border-t border-slate-800 bg-slate-950/95 px-6 py-5 lg:hidden">
+      <div class="grid gap-2">
+        <button class="nav-btn active text-left" data-tab="overview" onclick="switchTab('overview'); toggleMobileNav()">HQ Overview</button>
+        <button class="nav-btn text-left" data-tab="services" onclick="switchTab('services'); toggleMobileNav()">Engineering Divisions & Services</button>
+        <button class="nav-btn text-left" data-tab="projects" onclick="switchTab('projects'); toggleMobileNav()">R&D Projects Showcase</button>
+        <button class="nav-btn text-left" data-tab="founder" onclick="switchTab('founder'); toggleMobileNav()">Office of the CEO (M. Rohaan Zahid)</button>
+        <button class="nav-btn text-left" data-tab="media" onclick="switchTab('media'); toggleMobileNav()">Media & Instagram (@daedalus_.co)</button>
+        <button class="nav-btn text-left" data-tab="contact" onclick="switchTab('contact'); toggleMobileNav()">Corporate Inquiries</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN TAB HOST ==================== -->
+  <main class="max-w-7xl mx-auto px-5 pt-28 pb-20">
+
+    <!-- TAB 1: EXECUTIVE HQ & OVERVIEW -->
+    <section id="tab-overview" class="tab-content active space-y-16">
+      
+      <!-- Hero Display Unit -->
+      <div class="corp-glass rounded-[3rem] p-8 md:p-14 relative overflow-hidden">
+        <div class="absolute -right-24 -top-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-24 -bottom-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center relative z-10">
+          
+          <div data-aos="fade-right">
+            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400 text-xs font-mono font-bold tracking-widest uppercase mb-6">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+              DAEDALUS CORPORATION // ARCHITECTURAL BRIEF
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl font-black font-orbitron tracking-tight text-white leading-[1.1]">
+              PIONEERING <br />
+              <span class="bg-gradient-to-r from-amber-400 via-sky-400 to-cyan-300 bg-clip-text text-transparent">
+                HIGH-VELOCITY AI
+              </span><br />
+              & HEURISTIC SYSTEMS
+            </h1>
+
+            <p class="mt-6 text-lg text-slate-300 font-normal leading-relaxed max-w-2xl" id="corp-hero-subtext">
+              Daedalus Corporation develops mission-critical computational models, supervised machine learning pipelines, and fault-tolerant software architectures engineered to bridge complex algorithmic theory with industrial execution.
+            </p>
+
+            <div class="mt-9 flex flex-wrap items-center gap-4">
+              <button onclick="switchTab('services')" class="btn-cyber">
+                Explore Divisions
+              </button>
+              <button onclick="switchTab('founder')" class="btn-neon">
+                Office of the Founder ↗
+              </button>
+              <a href="https://www.instagram.com/daedalus_.co" target="_blank" class="px-5 py-3 rounded-xl border border-pink-500/40 text-pink-400 font-bold text-xs flex items-center gap-2 hover:bg-pink-500/10 transition-colors">
+                <span>📸</span> @daedalus_.co
+              </a>
+            </div>
+
+            <!-- Global Specs HUD -->
+            <div class="mt-12 pt-8 border-t border-slate-800/80 grid grid-cols-3 gap-6 font-mono">
+              <div>
+                <span class="text-3xl font-black text-amber-400 font-heading">0.999</span>
+                <p class="text-[11px] text-slate-400 uppercase tracking-widest mt-1">Uptime Reliability</p>
+              </div>
+              <div>
+                <span class="text-3xl font-black text-cyan-400 font-heading">&lt; 35ms</span>
+                <p class="text-[11px] text-slate-400 uppercase tracking-widest mt-1">Pipeline Latency</p>
+              </div>
+              <div>
+                <span class="text-3xl font-black text-indigo-400 font-heading">C++ / Py</span>
+                <p class="text-[11px] text-slate-400 uppercase tracking-widest mt-1">Core Tech Stack</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Gyroscopic Dual Wireframe Canvas Orb -->
+          <div class="relative flex items-center justify-center" data-aos="zoom-in">
+            <div class="relative w-80 h-80 sm:w-96 sm:h-96 flex items-center justify-center">
+              <canvas id="gyro-canvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
+              <div class="relative z-10 w-48 h-48 rounded-full bg-slate-950/90 border border-slate-800 backdrop-blur-xl flex flex-col items-center justify-center text-center p-6 shadow-2xl">
+                <span class="font-orbitron font-black text-5xl text-amber-400 mb-1">Δ</span>
+                <span class="font-orbitron text-xs font-bold tracking-[0.25em] text-white">DAEDALUS</span>
+                <span class="text-[9px] font-mono text-cyan-400 tracking-wider">LABS CORP</span>
+                <div class="mt-2 text-[9px] text-slate-500 font-mono">ISLAMABAD, PK</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Corporate Pillar Grid -->
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="corp-glass p-8 rounded-3xl" data-aos="fade-up">
+          <div class="w-12 h-12 rounded-2xl bg-amber-400/10 border border-amber-400/30 text-amber-400 flex items-center justify-center text-2xl mb-5">
+            01
+          </div>
+          <h3 class="text-xl font-bold font-heading text-white">Algorithmic Rigor</h3>
+          <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+            Eliminating guesswork with mathematically grounded heuristics, supervised ML evaluation benchmarks, and continuous feature testing.
+          </p>
+        </div>
+
+        <div class="corp-glass p-8 rounded-3xl" data-aos="fade-up" data-aos-delay="100">
+          <div class="w-12 h-12 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center text-2xl mb-5">
+            02
+          </div>
+          <h3 class="text-xl font-bold font-heading text-white">High-Velocity Architectures</h3>
+          <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+            Full-stack web applications and microservices built with zero bloat, native Node.js/SQLite datastores, and sub-second reaction times.
+          </p>
+        </div>
+
+        <div class="corp-glass p-8 rounded-3xl" data-aos="fade-up" data-aos-delay="200">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-400/10 border border-indigo-400/30 text-indigo-400 flex items-center justify-center text-2xl mb-5">
+            03
+          </div>
+          <h3 class="text-xl font-bold font-heading text-white">Direct Founder Oversight</h3>
+          <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+            Every repository, algorithm, and deployment is architected directly under the leadership of Founder M. Rohaan Zahid.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 2: ENGINEERING DIVISIONS & SERVICES -->
+    <section id="tab-services" class="tab-content space-y-12">
+      
+      <div class="text-center max-w-3xl mx-auto">
+        <span class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-cyan-400">ENGINEERING DIVISIONS</span>
+        <h2 class="text-3xl sm:text-5xl font-black font-orbitron text-white mt-2">Core Capabilities & Offerings</h2>
+        <p class="text-sm text-slate-400 mt-3">From predictive data modeling to low-level C++ simulation engines, Daedalus Corporation deploys full-cycle software intelligence.</p>
+      </div>
+
+      <div id="dynamic-services-list" class="grid md:grid-cols-3 gap-8">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Enterprise Infrastructure Banner -->
+      <div class="corp-glass-gold p-8 md:p-12 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">Custom Architecture Consultation</span>
+          <h3 class="text-2xl font-bold font-heading text-white mt-1">Need a custom AI model or systems blueprint?</h3>
+          <p class="text-xs text-slate-400 mt-1 max-w-xl">We construct customized prototypes, training suites, and API infrastructure tailored directly to your team's hardware constraints.</p>
+        </div>
+        <button onclick="switchTab('contact')" class="btn-cyber shrink-0">
+          Request Technical Spec
+        </button>
+      </div>
+
+    </section>
+
+    <!-- TAB 3: R&D PROJECTS & WORK SHOWCASE -->
+    <section id="tab-projects" class="tab-content space-y-12">
+      
+      <div class="flex flex-wrap justify-between items-end gap-6 border-b border-slate-800 pb-6">
+        <div>
+          <span class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-amber-400">LABORATORY DEPLOYMENTS</span>
+          <h2 class="text-3xl sm:text-5xl font-black font-orbitron text-white mt-2">Featured Projects & Systems</h2>
+        </div>
+        <a href="https://github.com/Rohaanrz05" target="_blank" class="btn-neon text-xs">
+          Open Official GitHub ↗
+        </a>
+      </div>
+
+      <div id="dynamic-projects-list" class="grid md:grid-cols-3 gap-8">
+        <!-- Injected via JavaScript -->
+      </div>
+
+    </section>
+
+    <!-- TAB 4: OFFICE OF THE CEO & FOUNDER (DETAILED BIO) -->
+    <section id="tab-founder" class="tab-content space-y-12">
+      
+      <div class="corp-glass rounded-[3rem] p-8 md:p-14 relative overflow-hidden">
+        
+        <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800/80 pb-6 mb-10">
+          <div>
+            <span class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-amber-400">OFFICE OF THE CHIEF EXECUTIVE OFFICER</span>
+            <h2 class="text-3xl sm:text-5xl font-black font-orbitron text-white mt-1">Founder Profile & Credentials</h2>
+          </div>
+          <a href="https://rohaanzahid.space" target="_blank" class="btn-cyber !text-xs">
+            Visit Personal Portfolio: rohaanzahid.space ↗
+          </a>
+        </div>
+
+        <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-12 items-start">
+          
+          <!-- Founder Image & Status Card -->
+          <div class="corp-glass p-7 rounded-3xl text-center space-y-5 border border-amber-400/30">
+            <div class="relative w-52 h-52 mx-auto">
+              <img id="founder-photo" src="https://i.postimg.cc/P5FzQ0S9/mypic.jpg" alt="M. Rohaan Zahid" class="w-full h-full object-cover rounded-2xl border-2 border-amber-400/50 shadow-2xl" />
+              <div class="absolute -bottom-3 inset-x-4 bg-slate-950 border border-amber-400/40 text-amber-400 text-[10px] font-mono font-bold py-1 rounded-md shadow-lg">
+                CHIEF SYSTEMS ARCHITECT
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <h3 class="text-2xl font-black font-heading text-white" id="founder-name-display">M. Rohaan Zahid</h3>
+              <p class="text-xs text-cyan-400 font-semibold mt-0.5" id="founder-title-display">Founder & CEO, Daedalus Corporation</p>
+              <p class="text-[11px] text-slate-400 font-mono mt-1">AI Programmer & Software Developer</p>
+            </div>
+
+            <!-- Direct Portals -->
+            <div class="pt-4 border-t border-slate-800 grid grid-cols-2 gap-2 text-xs">
+              <a href="https://rohaanzahid.space" target="_blank" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sky-400 hover:border-sky-400 font-bold transition-all">
+                🌐 Portfolio
+              </a>
+              <a href="https://github.com/Rohaanrz05" target="_blank" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold transition-all">
+                💻 GitHub
+              </a>
+            </div>
+
+            <div class="text-[11px] text-slate-500 font-mono text-left bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 space-y-1">
+              <div><span class="text-slate-400">INSTITUTION:</span> Sir Syed CASE</div>
+              <div><span class="text-slate-400">DEGREE:</span> BS Artificial Intelligence</div>
+              <div><span class="text-slate-400">HQ COORD:</span> Islamabad, Pakistan</div>
+            </div>
+          </div>
+
+          <!-- Comprehensive Narrative Dossier -->
+          <div class="space-y-6 text-slate-300 text-sm leading-relaxed">
+            
+            <div class="space-y-3">
+              <h4 class="text-xl font-bold font-heading text-white flex items-center gap-2">
+                <span class="text-amber-400">Δ</span> Vision & Mandate
+              </h4>
+              <p class="text-base text-slate-200 leading-relaxed" id="founder-bio-display">
+                Artificial Intelligence undergraduate at <strong>Sir Syed CASE Institute of Technology</strong> specializing in the convergence of applied machine learning, production data workflows, and robust software engineering. Dedicated to turning mathematical heuristics into reliable, production-ready software architectures.
+              </p>
+            </div>
+
+            <!-- Academic Foundations -->
+            <div class="space-y-3 pt-2">
+              <h4 class="text-sm font-mono font-bold uppercase tracking-wider text-cyan-400">Academic Trajectory</h4>
+              <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 space-y-2">
+                <div class="flex justify-between font-bold text-white text-xs">
+                  <span>Sir Syed CASE Institute of Technology, Islamabad</span>
+                  <span class="text-cyan-400">2024 - Present (5th Semester)</span>
+                </div>
+                <p class="text-xs text-amber-300 font-semibold">Bachelor of Science in Artificial Intelligence (BS-AI)</p>
+                <p class="text-[11px] text-slate-400">Specialized disciplines: Artificial Intelligence, Machine Learning Pipelines, Database Architectures, Data Structures & Algorithms, Object-Oriented Analysis.</p>
+              </div>
+            </div>
+
+            <!-- Industry Experience Track Record -->
+            <div class="space-y-3 pt-2">
+              <h4 class="text-sm font-mono font-bold uppercase tracking-wider text-amber-400">Verified Technical Internships</h4>
+              <div class="grid sm:grid-cols-3 gap-3">
+                <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                  <span class="text-xs font-bold text-white block">FlyRank.AI</span>
+                  <span class="text-[10px] text-cyan-400 font-mono block mt-0.5">Machine Learning Intern</span>
+                  <p class="text-[11px] text-slate-400 mt-2">ML model testing, automated data cleaning, and predictive scoring validation.</p>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                  <span class="text-xs font-bold text-white block">Decode Labs</span>
+                  <span class="text-[10px] text-cyan-400 font-mono block mt-0.5">AI Engineering Intern</span>
+                  <p class="text-[11px] text-slate-400 mt-2">Chatbot architectures, Python-driven automation, and conversational heuristics.</p>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                  <span class="text-xs font-bold text-white block">CodeAlpha</span>
+                  <span class="text-[10px] text-cyan-400 font-mono block mt-0.5">Python Programming</span>
+                  <p class="text-[11px] text-slate-400 mt-2">OOP paradigms, modular Python scripts, and clean development best practices.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Published Author Note -->
+            <div class="p-4 rounded-2xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-between gap-4">
+              <div>
+                <span class="text-xs font-bold text-white block">Published Author & Independent Researcher</span>
+                <span class="text-[11px] text-slate-300">Managing independent academic research, web archives, and digital literature.</span>
+              </div>
+              <a href="https://books.rohaanzahid.space" target="_blank" class="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 font-bold text-xs shrink-0 hover:bg-amber-300 transition-colors">
+                books.rohaanzahid.space ↗
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TAB 5: DAEDALUS MEDIA & INSTAGRAM CHANNEL -->
+    <section id="tab-media" class="tab-content space-y-12">
+      
+      <div class="corp-glass rounded-[3rem] p-8 md:p-14 relative overflow-hidden border border-pink-500/30">
+        
+        <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
+          
+          <div class="space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-400 text-xs font-mono font-bold tracking-widest uppercase">
+              <span>📸</span> OFFICIAL BROADCAST CHANNEL
+            </div>
+
+            <h2 class="text-3xl sm:text-5xl font-black font-orbitron text-white leading-tight">
+              INSIDE THE <br />
+              <span class="bg-gradient-to-r from-pink-500 via-rose-400 to-amber-300 bg-clip-text text-transparent">
+                @daedalus_.co
+              </span> LABS
+            </h2>
+
+            <p class="text-slate-300 text-sm leading-relaxed">
+              We document our engineering sprints, 3D prototype renders, mathematical routing proofs, and systems updates live on our official Instagram channel. Join our technical audience and track how we construct autonomous software.
+            </p>
+
+            <div class="flex flex-wrap gap-4 pt-2">
+              <a href="https://www.instagram.com/daedalus_.co" target="_blank" class="btn-cyber !bg-gradient-to-r !from-pink-600 !via-rose-600 !to-purple-600 !text-white !border-pink-500/50 flex items-center gap-2">
+                <span>⚡ Follow @daedalus_.co on Instagram</span> ↗
+              </a>
+              <button onclick="switchTab('contact')" class="btn-neon text-xs">
+                Inquire via Direct Desk
+              </button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800 text-center font-mono">
+              <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+                <span class="text-xl font-bold text-pink-400">Visual</span>
+                <p class="text-[10px] text-slate-400 mt-0.5">Architecture Blueprints</p>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+                <span class="text-xl font-bold text-amber-400">Weekly</span>
+                <p class="text-[10px] text-slate-400 mt-0.5">R&D Lab Updates</p>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+                <span class="text-xl font-bold text-cyan-400">Direct</span>
+                <p class="text-[10px] text-slate-400 mt-0.5">Engineering Access</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Stylized Instagram Mockup Card -->
+          <div class="corp-glass p-6 rounded-3xl border border-pink-500/30 shadow-2xl relative" data-aos="zoom-in">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-purple-600 p-[2px]">
+                  <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center font-orbitron font-bold text-amber-400 text-sm">
+                    Δ
+                  </div>
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-white font-mono">daedalus_.co</h4>
+                  <p class="text-[10px] text-slate-400">Daedalus Corporation</p>
+                </div>
+              </div>
+              <a href="https://www.instagram.com/daedalus_.co" target="_blank" class="text-xs bg-pink-600 hover:bg-pink-500 text-white font-bold px-3 py-1.5 rounded-lg transition-colors">
+                Follow
+              </a>
+            </div>
+
+            <div class="aspect-square rounded-2xl bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 border border-slate-800 flex flex-col items-center justify-center p-6 text-center">
+              <span class="text-5xl mb-2">📸</span>
+              <span class="font-orbitron font-black text-xl text-white">DAEDALUS SYSTEMS</span>
+              <p class="text-xs text-slate-400 mt-1">Autonomous Systems • Applied AI • Software Engineering</p>
+              <div class="mt-4 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/40 text-pink-400 text-xs font-mono font-bold">
+                instagram.com/daedalus_.co
+              </div>
+            </div>
+
+            <p class="mt-4 text-xs text-slate-400 leading-relaxed">
+              Official Instagram hub for design breakdowns, algorithm visualizations, and tech stack showcases.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TAB 6: COMMAND & INQUIRIES (AJAX SUBMISSION - NO REDIRECT) -->
+    <section id="tab-contact" class="tab-content space-y-12">
+      
+      <div class="corp-glass rounded-[3rem] p-8 md:p-14 relative overflow-hidden">
+        
+        <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-12">
+          
+          <!-- Direct AJAX Form Desk -->
+          <div>
+            <span class="text-xs font-mono font-bold tracking-[0.3em] uppercase text-cyan-400">COMMUNICATION DESK</span>
+            <h2 class="text-3xl sm:text-4xl font-black font-orbitron text-white mt-1 mb-2">Transmit Project Specification</h2>
+            <p class="text-xs text-slate-400 mb-8">Submit your enterprise scope, consultation inquiry, or technical requirement directly to our team.</p>
+
+            <!-- AJAX Form (Targeting Formspree mblyeqol without redirect) -->
+            <form id="ajaxContactForm" class="space-y-4">
+              
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">Your Full Name</label>
+                  <input type="text" id="form-name" name="name" placeholder="e.g. John Doe" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-xs text-white focus:border-amber-400 outline-none transition-colors" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">Business / Personal Email</label>
+                  <input type="email" id="form-email" name="email" placeholder="name@organization.com" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-xs text-white focus:border-amber-400 outline-none transition-colors" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">Subject / Domain Scope</label>
+                <input type="text" id="form-subject" name="subject" placeholder="e.g. Machine Learning Pipeline Architecture" required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-xs text-white focus:border-amber-400 outline-none transition-colors" />
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">Detailed Technical Specification</label>
+                <textarea id="form-message" name="message" rows="5" placeholder="Outline your technical requirements, estimated timeline, performance goals, or collaboration context..." required class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-xs text-white focus:border-amber-400 outline-none transition-colors"></textarea>
+              </div>
+
+              <button type="submit" id="submitBtn" class="btn-cyber w-full py-4 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+                <span id="btnText">Transmit Specification Dossier</span>
+                <span id="btnSpinner" class="hidden">⚙️ Transmitting...</span>
+              </button>
+
+              <!-- IN-PLACE POPUP / ALERT CONTAINER (NO REDIRECT) -->
+              <div id="statusAlert" class="hidden p-4 rounded-xl text-xs leading-relaxed transition-all"></div>
+
+            </form>
+          </div>
+
+          <!-- Corporate Coordinates Column -->
+          <div class="space-y-6 flex flex-col justify-between">
+            
+            <div class="space-y-4">
+              <h3 class="text-base font-bold font-heading text-white border-b border-slate-800 pb-3">Corporate Transmission Coordinates</h3>
+              
+              <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
+                <span class="text-[10px] font-mono text-amber-400 uppercase font-bold block">Founder & Engineering Desk</span>
+                <p class="text-xs text-white font-bold mt-1" id="coord-email">rohaanzahid.04@gmail.com</p>
+                <span class="text-[10px] text-slate-500">M. Rohaan Zahid Direct Oversight</span>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
+                <span class="text-[10px] font-mono text-cyan-400 uppercase font-bold block">Telephone Dispatch</span>
+                <p class="text-xs text-white font-bold mt-1" id="coord-phone">+92 333 8705793</p>
+                <span class="text-[10px] text-slate-500">Active PST / GMT+5 Communication</span>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
+                <span class="text-[10px] font-mono text-indigo-400 uppercase font-bold block">Headquarters Coordinates</span>
+                <p class="text-xs text-white font-bold mt-1" id="coord-location">Islamabad, Pakistan</p>
+                <span class="text-[10px] text-slate-500">Sir Syed CASE Technology Zone</span>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
+                <span class="text-[10px] font-mono text-pink-400 uppercase font-bold block">Broadcast Channel</span>
+                <a href="https://www.instagram.com/daedalus_.co" target="_blank" class="text-xs text-pink-400 font-bold mt-1 block hover:underline">
+                  instagram.com/daedalus_.co
+                </a>
+              </div>
+            </div>
+
+            <!-- Founder Verification Banner -->
+            <div class="p-5 rounded-2xl bg-amber-400/10 border border-amber-400/30 text-xs text-amber-200">
+              ⚡ <strong>Executive Transparency:</strong> Daedalus Corporation is operated directly by <strong>M. Rohaan Zahid</strong>. To view his complete verified academic timeline, internship certifications, and personal CV, visit <a href="https://rohaanzahid.space" target="_blank" class="underline font-bold text-white">rohaanzahid.space</a>.
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==================== ENTERPRISE FOOTER ==================== -->
+  <footer class="border-t border-slate-800/80 bg-slate-950 py-12 text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-5 flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-amber-400/10 border border-amber-400/30 text-amber-400 flex items-center justify-center font-orbitron font-bold">
+          Δ
+        </div>
+        <div>
+          <span class="text-sm font-black font-orbitron text-white">DAEDALUS CORPORATION</span>
+          <p class="text-[10px] text-slate-500">Chief Systems Architect: M. Rohaan Zahid</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-6 font-mono text-xs">
+        <button onclick="switchTab('overview')" class="hover:text-amber-400 transition-colors">HQ Overview</button>
+        <button onclick="switchTab('services')" class="hover:text-cyan-400 transition-colors">Divisions</button>
+        <button onclick="switchTab('projects')" class="hover:text-amber-400 transition-colors">Projects</button>
+        <button onclick="switchTab('founder')" class="hover:text-cyan-400 transition-colors">CEO Office</button>
+        <a href="https://www.instagram.com/daedalus_.co" target="_blank" class="hover:text-pink-400 transition-colors">Instagram</a>
+        <a href="https://rohaanzahid.space" target="_blank" class="hover:text-sky-400 transition-colors">rohaanzahid.space</a>
+        <a href="/admin" class="text-slate-400 hover:text-white transition-colors">Admin CMS</a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==================== LOGIC & SCRIPT RUNTIME ==================== -->
+  <script>
+    AOS.init({ duration: 750, once: true });
+
+    // 1. Multi-Tab Navigation Engine
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      const targetSection = document.getElementById('tab-' + tabId);
+      if (targetSection) {
+        targetSection.classList.add('active');
+      }
+
+      document.querySelectorAll(`[data-tab="${tabId}"]`).forEach(btn => btn.classList.add('active'));
+      window.location.hash = tabId;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileNav() {
+      const drawer = document.getElementById('mobileDrawer');
+      drawer.classList.toggle('hidden');
+    }
+
+    // 2. Fetch Corporate Data from Database
+    async function loadCorporateData() {
+      try {
+        const res = await fetch('/api/business-data');
+        const data = await res.json();
+
+        if (data.company) {
+          const c = data.company;
+          const heroSub = document.getElementById('corp-hero-subtext');
+          if (heroSub) heroSub.innerText = c.hero_subtext;
+
+          const fBio = document.getElementById('founder-bio-display');
+          if (fBio) fBio.innerText = c.founder_bio;
+
+          const fName = document.getElementById('founder-name-display');
+          if (fName) fName.innerText = c.founder_name;
+
+          const fRole = document.getElementById('founder-role-display');
+          if (fRole) fRole.innerText = c.founder_role;
+
+          if (c.founder_image_url) {
+            document.getElementById('founder-photo').src = c.founder_image_url;
+          }
+
+          document.getElementById('coord-email').innerText = c.contact_email;
+          document.getElementById('coord-phone').innerText = c.contact_phone;
+          document.getElementById('coord-location').innerText = c.contact_location;
+        }
+
+        // Render Services
+        const sContainer = document.getElementById('dynamic-services-list');
+        if (sContainer && data.services) {
+          sContainer.innerHTML = data.services.map(s => `
+            <div class="corp-glass p-8 rounded-3xl flex flex-col justify-between" data-aos="fade-up">
+              <div>
+                <div class="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-3xl mb-5 shadow-lg">
+                  ${s.icon || '⚙️'}
+                </div>
+                <h3 class="text-xl font-bold font-heading text-white">${s.title}</h3>
+                <p class="text-xs text-slate-300 leading-relaxed mt-3">${s.description}</p>
+              </div>
+              ${s.deliverables ? `
+                <div class="mt-6 pt-4 border-t border-slate-800/80">
+                  <span class="text-[10px] text-cyan-400 font-mono font-bold uppercase tracking-wider block mb-1">Key Tooling & Artifacts:</span>
+                  <p class="text-[11px] text-slate-400 font-mono">${s.deliverables}</p>
+                </div>
+              ` : ''}
+            </div>
+          `).join('');
+        }
+
+        // Render Projects
+        const pContainer = document.getElementById('dynamic-projects-list');
+        if (pContainer && data.projects) {
+          pContainer.innerHTML = data.projects.map(p => `
+            <div class="corp-glass p-7 rounded-3xl flex flex-col justify-between" data-aos="fade-up">
+              <div>
+                ${p.image_url ? `<img src="${p.image_url}" class="w-full h-44 object-cover rounded-2xl mb-4 border border-slate-800" alt="${p.title}" />` : `
+                  <div class="w-full h-40 rounded-2xl bg-slate-950 border border-slate-800/80 flex items-center justify-center text-4xl mb-4">Δ</div>
+                `}
+                <span class="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-widest">${p.category || 'Systems'}</span>
+                <h3 class="text-lg font-bold font-heading text-white mt-1">${p.title}</h3>
+                <p class="text-xs text-slate-300 mt-2 leading-relaxed">${p.description}</p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+                <span class="text-[10px] text-slate-500 font-mono">${p.client_name ? `Domain: ${p.client_name}` : 'Autonomous R&D'}</span>
+                ${p.live_url ? `<a href="${p.live_url}" target="_blank" class="text-xs text-cyan-400 font-bold hover:underline">Explore ↗</a>` : ''}
+              </div>
+            </div>
+          `).join('');
+        }
+
+      } catch (err) {
+        console.error('Data loading error:', err);
+      }
+    }
+
+    // 3. AJAX Formspree Interceptor (NO REDIRECT + IN-PLACE CONFIRMATION)
+    document.getElementById('ajaxContactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      const btnSpinner = document.getElementById('btnSpinner');
+      const alertBox = document.getElementById('statusAlert');
+
+      // UI Loading state
+      submitBtn.disabled = true;
+      btnText.classList.add('hidden');
+      btnSpinner.classList.remove('hidden');
+      alertBox.classList.add('hidden');
+
+      const formData = {
+        name: document.getElementById('form-name').value,
+        email: document.getElementById('form-email').value,
+        subject: document.getElementById('form-subject').value,
+        message: document.getElementById('form-message').value
+      };
+
+      try {
+        const response = await fetch('https://formspree.io/f/mblyeqol', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          // Success Feedback
+          alertBox.className = "p-5 rounded-2xl text-xs leading-relaxed bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 block";
+          alertBox.innerHTML = `
+            <div class="flex items-center gap-2 font-bold font-heading text-sm mb-1 text-emerald-200">
+              <span>✓</span> Specification Transmitted Successfully
+            </div>
+            Your project brief has been logged into our communications queue. Our engineering team and Founder M. Rohaan Zahid will review your dossier and get back to you as soon as possible.
+          `;
+          document.getElementById('ajaxContactForm').reset();
+        } else {
+          throw new Error('Form submission failed');
+        }
+      } catch (error) {
+        alertBox.className = "p-5 rounded-2xl text-xs leading-relaxed bg-red-950/60 border border-red-500/40 text-red-300 block";
+        alertBox.innerHTML = `
+          <strong>Transmission Error:</strong> We could not connect to the dispatcher. Please email directly to <a href="mailto:rohaanzahid.04@gmail.com" class="underline font-bold">rohaanzahid.04@gmail.com</a>.
+        `;
+      } finally {
+        submitBtn.disabled = false;
+        btnText.classList.remove('hidden');
+        btnSpinner.classList.add('hidden');
+      }
+    });
+
+    // 4. Advanced Dual Gyroscopic Rings Animation
+    class GyroscopeOrb {
+      constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+        this.ctx = this.canvas.getContext('2d');
+        this.t = 0;
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        this.animate();
+      }
+      resize() {
+        const r = this.canvas.getBoundingClientRect();
+        this.canvas.width = r.width * 2;
+        this.canvas.height = r.height * 2;
+        this.ctx.scale(2, 2);
+      }
+      animate() {
+        const w = this.canvas.width / 2;
+        const h = this.canvas.height / 2;
+        const cx = w / 2;
+        const cy = h / 2;
+        this.ctx.clearRect(0, 0, w, h);
+
+        this.t += 0.015;
+
+        // Outer Ring
+        this.ctx.save();
+        this.ctx.translate(cx, cy);
+        this.ctx.rotate(this.t * 0.7);
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, 115, 0, Math.PI * 2);
+        this.ctx.strokeStyle = 'rgba(245, 158, 11, 0.4)';
+        this.ctx.lineWidth = 1.8;
+        this.ctx.stroke();
+
+        // Outer Nodes
+        for (let i = 0; i < 8; i++) {
+          const a = (i / 8) * Math.PI * 2;
+          const x = Math.cos(a) * 115;
+          const y = Math.sin(a) * 115;
+          this.ctx.beginPath();
+          this.ctx.arc(x, y, 3, 0, Math.PI * 2);
+          this.ctx.fillStyle = '#f59e0b';
+          this.ctx.fill();
+        }
+        this.ctx.restore();
+
+        // Inner Counter-Rotating Ring
+        this.ctx.save();
+        this.ctx.translate(cx, cy);
+        this.ctx.rotate(-this.t * 1.1);
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, 95, 0, Math.PI * 2);
+        this.ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
+        this.ctx.lineWidth = 1.4;
+        this.ctx.setLineDash([8, 12]);
+        this.ctx.stroke();
+        this.ctx.restore();
+
+        requestAnimationFrame(() => this.animate());
+      }
+    }
+
+    // 5. High-Density Quantum Particle Field
+    class QuantumParticleField {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.particles = [];
+        this.mouse = { x: null, y: null, radius: 160 };
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        window.addEventListener('mousemove', (e) => { this.mouse.x = e.x; this.mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { this.mouse.x = null; this.mouse.y = null; });
+        this.init();
+        this.animate();
+      }
+      resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+      }
+      init() {
+        this.particles = [];
+        const count = Math.min(Math.floor((this.canvas.width * this.canvas.height) / 10000), 100);
+        for (let i = 0; i < count; i++) {
+          this.particles.push({
+            x: Math.random() * this.canvas.width,
+            y: Math.random() * this.canvas.height,
+            vx: (Math.random() - 0.5) * 0.6,
+            vy: (Math.random() - 0.5) * 0.6,
+            r: Math.random() * 2.2 + 1,
+            color: Math.random() > 0.4 ? '0, 240, 255' : '245, 158, 11',
+            baseAlpha: Math.random() * 0.45 + 0.2
+          });
+        }
+      }
+      animate() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        for (let i = 0; i < this.particles.length; i++) {
+          let p = this.particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+
+          this.ctx.beginPath();
+          this.ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          this.ctx.fillStyle = `rgba(${p.color}, ${p.baseAlpha})`;
+          this.ctx.fill();
+
+          for (let j = i + 1; j < this.particles.length; j++) {
+            let p2 = this.particles[j];
+            let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+            if (dist < 125) {
+              this.ctx.beginPath();
+              this.ctx.moveTo(p.x, p.y);
+              this.ctx.lineTo(p2.x, p2.y);
+              this.ctx.strokeStyle = `rgba(56, 189, 248, ${0.18 * (1 - dist / 125)})`;
+              this.ctx.lineWidth = 0.85;
+              this.ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(() => this.animate());
+      }
+    }
+
+    // Initialize on Load
+    window.addEventListener('load', () => {
+      loadCorporateData();
+      new QuantumParticleField(document.getElementById('quantum-canvas'));
+      new GyroscopeOrb('gyro-canvas');
+
+      // Check URL Hash for deep linking
+      if (window.location.hash) {
+        const hash = window.location.hash.replace('#', '');
+        switchTab(hash);
+      }
+    });
+  </script>
+</body>
+</html>
