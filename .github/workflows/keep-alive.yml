@@ -1,0 +1,15 @@
+name: Website Health Check
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping-website:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send request to portfolio
+        run: |
+          curl -fsS -o /dev/null https://daedalus.rohaanzahid.space/
